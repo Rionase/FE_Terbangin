@@ -170,110 +170,110 @@ const FindTicket = () => {
     ]);
 
     return (
-        <>
-            {/* Header */}
-            <HeaderShadow>
-                <h4 className="pt-4" style={{ fontWeight: 700 }}>
-                    {flightType === "Return"
-                        ? isSelectingReturn
-                            ? "Pilih Penerbangan Kepulangan"
-                            : "Pilih Penerbangan Keberangkatan"
-                        : "Pilih Penerbangan"}
-                </h4>
+      <>
+        {/* Header */}
+        <HeaderShadow>
+          <h4 className="pt-4" style={{ fontWeight: 700 }}>
+            {flightType === "Return"
+              ? isSelectingReturn
+                ? "Pilih Penerbangan Kepulangan"
+                : "Pilih Penerbangan Keberangkatan"
+              : "Pilih Penerbangan"}
+          </h4>
 
-                <Row className="mt-4 g-2">
-                    <Col sx={12} md={10} className="d-flex">
-                        <BackButton
-                            ButtonText={`${flights[0]?.StartAirport?.iataCode} > ${flights[0]?.EndAirport?.iataCode} - ${capacity} Penumpang - ${seatType}`}
-                        />
-                    </Col>
-                    <Col sx={12} md={2} className="d-flex">
-                        <Button
-                            variant="success"
-                            style={{ borderRadius: 14 }}
-                            className="flex-fill"
-                            onClick={handleOpenChangeFlight}
-                        >
-                            Ubah Penerbangan
-                        </Button>
+          <Row className="mt-4 g-2">
+            <Col sx={12} md={10} className="d-flex">
+              <BackButton
+                ButtonText={`${iataCodeDeparture} > ${iataCodeArrival} - ${capacity} Penumpang - ${seatType}`}
+              />
+            </Col>
+            <Col sx={12} md={2} className="d-flex">
+              <Button
+                variant="success"
+                style={{ borderRadius: 14 }}
+                className="flex-fill"
+                onClick={handleOpenChangeFlight}
+              >
+                Ubah Penerbangan
+              </Button>
 
-                        <Modal
-                            open={isChangeFlight}
-                            onClose={handleCloseChangeFlight}
-                            style={{ top: "15%", zIndex: 300 }}
-                        >
-                            <FormArea
-                                title={
-                                    <>
-                                        <h4 style={{ fontWeight: 700 }}>
-                                            Ubah Penerbangan
-                                        </h4>
-                                    </>
-                                }
-                                isFullScreen={isFullScreen}
-                                isMobile={isMobile}
-                                flightDataUser={flightDatauser}
-                                onClick={handleCloseChangeFlight}
-                            />
-                        </Modal>
-                    </Col>
-                </Row>
+              <Modal
+                open={isChangeFlight}
+                onClose={handleCloseChangeFlight}
+                style={{ top: "15%", zIndex: 300 }}
+              >
+                <FormArea
+                  title={
+                    <>
+                      <h4 style={{ fontWeight: 700 }}>Ubah Penerbangan</h4>
+                    </>
+                  }
+                  isFullScreen={isFullScreen}
+                  isMobile={isMobile}
+                  flightDataUser={flightDatauser}
+                  onClick={handleCloseChangeFlight}
+                />
+              </Modal>
+            </Col>
+          </Row>
 
-                <Row className="mt-4 ">
-                    <Col>
-                        <DateSelector
-                            dispatch={dispatch}
-                            datafiltering={{
-                                seatType: seatType,
-                                departure: flights[0]?.StartAirport?.city,
-                                arrival: flights[0]?.EndAirport?.city,
-                                departureDate: departureDate,
-                                returnDate: returnDate,
-                                flightType: flightType,
-                            }}
-                            flightIdDeparture={flightIdDeparture}
-                        />
-                    </Col>
-                </Row>
-            </HeaderShadow>
-            {/* Main Content */}
-            <Container>
-                {isLoading ? ( // Show spinner while loading
-                    <div className="text-center my-5">
-                        <Spinner animation="border" role="status">
-                            <span className="visually-hidden">Loading...</span>
-                        </Spinner>
-                    </div>
+          <Row className="mt-4 ">
+            <Col>
+              <DateSelector
+                dispatch={dispatch}
+                datafiltering={{
+                  seatType: seatType,
+                  departure: departure,
+                  arrival: arrival,
+                  departureDate: departureDate,
+                  returnDate: returnDate,
+                  flightType: flightType,
+                  adult: adult, 
+                  child: child,
+                  baby: baby,
+                }}
+                flightIdDeparture={flightIdDeparture}
+              />
+            </Col>
+          </Row>
+        </HeaderShadow>
+        {/* Main Content */}
+        <Container>
+          {isLoading ? ( // Show spinner while loading
+            <div className="text-center my-5">
+              <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </Spinner>
+            </div>
+          ) : (
+            <Row className={isFullScreen ? "pt-4 mx-5" : "pt-4"}>
+              <Col>
+                {lendata == false ? (
+                  <TicketNotFound />
                 ) : (
-                    <Row className={isFullScreen ? "pt-4 mx-5" : "pt-4"}>
-                        <Col>
-                            {lendata == false ? (
-                                <TicketNotFound />
-                            ) : (
-                                <FlightList
-                                    flights={flights}
-                                    dispatch={dispatch}
-                                    datafiltering={{
-                                        seatType: seatType,
-                                        departure:
-                                            flights[0]?.StartAirport?.city,
-                                        arrival: flights[0]?.EndAirport?.city,
-                                        departureDate: flights[0]?.departureAt,
-                                        flightType: flightType,
-                                        returnDate: flights[0]?.arrivalAt,
-                                    }}
-                                    flightIdDeparture={flightIdDeparture}
-                                    flightIdReturn={flightIdReturn}
-                                    setflightIdDeparture={setflightIdDeparture}
-                                    setflightIdReturn={setflightIdReturn}
-                                    handleSubmit={handleSubmit}
-                                />
-                            )}
-                        </Col>
-                    </Row>
+                  <FlightList
+                    flights={flights}
+                    dispatch={dispatch}
+                    datafiltering={{
+                      seatType: seatType,
+                      departure: flights[0]?.StartAirport?.city,
+                      arrival: flights[0]?.EndAirport?.city,
+                      departureDate: flights[0]?.departureAt,
+                      flightType: flightType,
+                      returnDate: flights[0]?.arrivalAt,
+                    }}
+                    flightIdDeparture={flightIdDeparture}
+                    flightIdReturn={flightIdReturn}
+                    setflightIdDeparture={setflightIdDeparture}
+                    setflightIdReturn={setflightIdReturn}
+                    handleSubmit={handleSubmit}
+                  />
                 )}
-            </Container>
-        </>
+              </Col>
+            </Row>
+          )}
+        </Container>
+      </>
     );
 };
 
@@ -337,9 +337,17 @@ const DateSelector = ({ dispatch, datafiltering, flightIdDeparture }) => {
     }, [flightIdDeparture]);
 
     useEffect(() => {
-        const baseDate = new Date(datafiltering.departureDate);
-        setSelectedDate(baseDate);
-    }, [datafiltering.departureDate]);
+      const baseDate = new Date(datafiltering.departureDate);
+      setSelectedDate(baseDate);
+    }, [
+      datafiltering.departureDate,
+      datafiltering.departure,
+      datafiltering.arrival,
+      datafiltering.seatType,
+      datafiltering.adult,
+      datafiltering.baby,
+      datafiltering.child,
+    ]);
 
     return (
         <Container
