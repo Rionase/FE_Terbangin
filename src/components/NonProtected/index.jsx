@@ -2,6 +2,8 @@ import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { getProfile } from "../../redux/actions/auth";
+import Player from "react-lottie-player";
+import loadingAnimation from "../../assets/LottieFiles/Animation-airplaneloading.json";
 import TopLoadingBar from "react-top-loading-bar";
 
 const NonProtected = ({ children }) => {
@@ -58,6 +60,14 @@ const NonProtected = ({ children }) => {
         }
     }, []);
 
+    const waveText = (text) => {
+        return text.split("").map((char, index) => (
+            <span key={index} style={{ animationDelay: `${index * 0.08}s` }}>
+                {char} &nbsp;
+            </span>
+        ));
+    };
+
     return (
         <>
             <TopLoadingBar color="#7126B5" ref={loadingBarRef} />
@@ -71,6 +81,25 @@ const NonProtected = ({ children }) => {
                         height: "80vh",
                     }}
                 >
+                    <Player
+                        play
+                        loop
+                        animationData={loadingAnimation}
+                        style={{
+                            height: "40vh",
+                            width: "80vw",
+                            marginBottom: "1rem",
+                        }}
+                    />
+                    <h1
+                        style={{
+                            color: "#7126B5",
+                            display: "inline-block",
+                            fontSize: "2rem",
+                        }}
+                    >
+                        {waveText("T e r b a n g i n . . .")}
+                    </h1>
                 </div>
             ) : (
                 children
