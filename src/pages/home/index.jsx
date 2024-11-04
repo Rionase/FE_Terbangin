@@ -150,108 +150,100 @@ const DestinationFavorit = ({ isFullScreen }) => {
     }, [dispatch, sortContinent]);
 
     return (
-        <Container>
-            <Row
-                className="my-3"
-                style={{ margin: isFullScreen ? "0px 120px" : "0px 0px" }}
-            >
-                <h4> Rekomendasi Penerbangan</h4>
-                <Col md={12}>
-                    {[
-                        { id: 1, label: "Asia", value: "Asia" },
-                        { id: 2, label: "Amerika", value: "America" },
-                        { id: 3, label: "Australia", value: "Australia" },
-                        { id: 4, label: "Eropa", value: "Europe" },
-                        { id: 5, label: "Afrika", value: "Africa" },
-                    ].map((button) => (
-                        <Button
-                            key={button.id}
-                            style={getButtonStyle(button.id)}
-                            onClick={() => handleClick(button.id, button.value)}
-                            variant="secondary"
-                            className="me-2 mt-2"
-                        >
-                            {/* <img
+      <Container>
+        <Row
+          className="my-3"
+          style={{ margin: isFullScreen ? "0px 120px" : "0px 0px" }}
+        >
+          <h4> Rekomendasi Penerbangan</h4>
+          <Col md={12}>
+            {[
+              { id: 1, label: "Asia", value: "Asia" },
+              { id: 2, label: "Amerika", value: "America" },
+              { id: 3, label: "Australia", value: "Australia" },
+              { id: 4, label: "Eropa", value: "Europe" },
+              { id: 5, label: "Afrika", value: "Africa" },
+            ].map((button) => (
+              <Button
+                key={button.id}
+                style={getButtonStyle(button.id)}
+                onClick={() => handleClick(button.id, button.value)}
+                variant="secondary"
+                className="me-2 mt-2"
+              >
+                {/* <img
                                 src={getSourceImages(button.id)}
                                 alt={`Tombol ${button.id}`}
                             /> */}
-                            &nbsp;{button.label}
-                        </Button>
-                    ))}
-                </Col>
-            </Row>
-            <Row style={{ margin: isFullScreen ? "0px 120px" : "0px 0px" }}>
-                {flights.map((flight) => (
-                    <Col key={flight.id} md={3} sm={6} xs={6} className="mb-3">
-                        <Card
-                            onClick={() => navigateToFindTicket(flight)}
-                            style={{
-                                cursor: "pointer",
-                                width: "100%",
-                                height: "100%",
-                                display: "flex",
-                                flexDirection: "column",
-                            }}
-                        >
-                            {!loadingImages[flight.id] && (
-                                <Skeleton
-                                    height={200}
-                                    style={{ width: "100%" }}
-                                />
-                            )}
-                            <Card.Img
-                                key={flight.id}
-                                src={flight.EndAirport.picture}
-                                alt="End Airport"
-                                // loading="lazy"
-                                style={{
-                                    width: "100%",
-                                    height: "200px",
-                                    objectFit: "cover",
-                                    display: loadingImages[flight.id]
-                                        ? "block"
-                                        : "none",
-                                    backgroundColor: "#f0f0f0",
-                                }}
-                                onLoad={() => handleImageLoad(flight.id)}
-                            />
-                            <Card.Body style={{ flex: "1 1 auto" }}>
-                                <TextWithTooltip
-                                    text={`${flight.StartAirport.city} → ${flight.EndAirport.city}`}
-                                />
-                                <TextWithTooltip
-                                    text={flight.Airline.name}
-                                    style={{
-                                        color: "#7126b5",
-                                        fontWeight: "900",
-                                    }}
-                                />
-                                <p style={{ margin: 0 }}>
-                                    {moment
-                                        .tz(
-                                            flight.departureAt,
-                                            flight.StartAirport.timezone
-                                        )
-                                        .format("DD MMMM yyyy")}
-                                </p>
-                                <p>
-                                    Mulai dari
-                                    <span
-                                        style={{
-                                            color: "red",
-                                            margin: 0,
-                                            fontWeight: 700,
-                                        }}
-                                    >
-                                        {formatCurrency(flight.priceEconomy)}
-                                    </span>
-                                </p>
-                            </Card.Body>
-                        </Card>
-                    </Col>
-                ))}
-            </Row>
-        </Container>
+                &nbsp;{button.label}
+              </Button>
+            ))}
+          </Col>
+        </Row>
+        <Row style={{ margin: isFullScreen ? "0px 120px" : "0px 0px" }}>
+          {flights.map((flight) => (
+            <Col key={flight.id} md={3} sm={6} xs={6} className="mb-3">
+              <Card
+                onClick={() => navigateToFindTicket(flight)}
+                style={{
+                  cursor: "pointer",
+                  width: "100%",
+                  height: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                {!loadingImages[flight.id] && (
+                  <Skeleton height={200} style={{ width: "100%" }} />
+                )}
+                <Card.Img
+                  key={flight.id}
+                  src={`/Foto Airport/${flight.EndAirport.picture}`}
+                  alt="End Airport"
+                  // loading="lazy"
+                  style={{
+                    width: "100%",
+                    height: "200px",
+                    objectFit: "cover",
+                    display: loadingImages[flight.id] ? "block" : "none",
+                    backgroundColor: "#f0f0f0",
+                  }}
+                  onLoad={() => handleImageLoad(flight.id)}
+                />
+                <Card.Body style={{ flex: "1 1 auto" }}>
+                  <TextWithTooltip
+                    text={`${flight.StartAirport.city} → ${flight.EndAirport.city}`}
+                  />
+                  <TextWithTooltip
+                    text={flight.Airline.name}
+                    style={{
+                      color: "#7126b5",
+                      fontWeight: "900",
+                    }}
+                  />
+                  <p style={{ margin: 0 }}>
+                    {moment
+                      .tz(flight.departureAt, flight.StartAirport.timezone)
+                      .format("DD MMMM yyyy")}
+                  </p>
+                  <p>
+                    Mulai dari
+                    <span
+                      style={{
+                        color: "red",
+                        margin: 0,
+                        fontWeight: 700,
+                      }}
+                    >
+                      {formatCurrency(flight.priceEconomy)}
+                    </span>
+                  </p>
+                </Card.Body>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      </Container>
     );
 };
 
