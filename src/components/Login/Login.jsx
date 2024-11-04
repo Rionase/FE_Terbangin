@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { login } from "../../redux/actions/auth";
+import GoogleLoginComponent from "../GoogleLogin/GoogleLogin";
 
 function Login() {
   const dispatch = useDispatch();
@@ -86,6 +87,8 @@ function Login() {
       >
         {loading ? "Loading..." : "Masuk"}
       </Button>
+      <p className="text-center text-black">Or</p>
+      <GoogleLoginComponent text={"Login with google"} />
 
       <div className="text-center mb-3 mt-3">
         Belum punya akun?{" "}
